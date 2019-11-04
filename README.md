@@ -150,9 +150,73 @@ bool|false
 字符串|""
 
 ### 8.1.6 基本数据类型转换(需要显示转换)
+#### 8.1.6.1基本数据类型和string转换
+1. fmt.Sprinf("%参数",表达式)
+2. strconv包
+```golang
+var str string
+var num int = 10
+str = fmt.Sprintf("%d",num)
+fmt.Printf("str 的类型为: %T,str的值为 %v\n",str,str)
+str = strconv.Itoa(num) //只能是int
+fmt.Printf("str 的类型为: %T,str的值为 %v\n",str,str)
+
+var num1 float = 12.654
+str = fmt.Sprintf("%f",num1)
+fmt.Printf("str的类型为 %T,str的值为 %q\n",str,str)
+
+var flag boolean = true
+str = fmt.Sprintf("%t",flag)
+fmt.Printf("str的类型为 %T,str的值为 %q\n",str,str)
+
+var mychar byte = 't'
+str = fmt.Sprintf("%c",mychar)
+fmt.Printf("str的类型为 %T,str的值为 %q\n",str,str)
+
+var num2 int = 13
+str = strconv.FormatInt(int64(int),10) //10表示10进制
+fmt.Printf("str的类型为 %T,str的值为 %q\n",str,str)
+
+var num3 float64 = 12.656
+//"f"表示格式,10表示小数后留几位,64表示float64
+str = strconv.FormatFloat(num3,"f",10,64);
+fmt.Printf("str的类型为 %T,str的值为 %q\n",str,str)
+
+var flag2 bool = true
+str = strconv.FormatBool(flag2)
+fmt.Printf("str的类型为 %T,str的值为 %q\n",str,str)
+```
+#### 8.1.6.2 strint 转为基本数据类型
+```golang
+//string => boolean
+var str = "true"
+var b bool
+//因为ParseBool会返回多个值,第二个是err,所以使用_忽略
+b,_ = strconv.ParseBool(str)
+fmt.Printf("b type = T%,b = %v",b,b)
+
+str = "123"
+var c int64
+//ParseInt(string str,int i,int bitsize)
+//i:进制 bitsize:转成后多少位 0:int 8:int8 16:int16 32:int32 64:int64
+//即使bitsize为32,返回的依旧是int64 需要int32(c)
+c,_ = strconv.ParseInt(str,10,64)
+fmt.Printf("c type = %T,c = %v",c,c)
+
+str = "123.456"
+var d float64
+// ParseFloat(str string ,bitsize int ) bitsize:32,64
+d,_ = strconv.ParseFloat(str,64)
+fmt.Printf("d type = %T,d = %v",d,d)
+
+//如果把hello转为int,会直接转为默认值
+```
+
 
 ## 8.2 派生复杂数据类型
 ### 8.2.1. 指针(pointer)
+#### 指针也有对应的类型
+#### 值类型:int系列,float系列,bool,string,<p>数组和结构体<p>
 ### 8.2.2. 数组
 ### 8.2.3. 结构体(struct)
 ### 8.2.4. 管道(channel)
@@ -160,6 +224,8 @@ bool|false
 ### 8.2.6. 切片(slice)
 ### 8.2.7. 接口(interface)
 ### 8.2.8. map
+
+## 9 import _ xx 只是执行包的init()方法,而不引入整个包
 
 
 
